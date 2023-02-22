@@ -1,0 +1,12 @@
+L o t o s   v1.1.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Informacie o chybach
+--------------------
+V tomto dokumente su spisane vsetky chyby o ktorych vyskyte viem.
+
+(-: Momentalne nie su zname ziadne chyby. :-)
+
+Takze prosim kazdeho, kto pouzije OS Star, nech sa ozve
+na osstar@star.sjf.stuba.sk s oznamenim, ci sa chyba prejavuje a na akom
+systeme OS Star skusal. Samozrejme nech tam napise kazdy, kto si mysli,
+ze vie ako tu chybu odstranit, pripadne ak nasiel dalsiu chybu.
