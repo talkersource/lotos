@@ -1,24 +1,27 @@
+/* vi: set ts=4 sw=4 ai: */
 /*****************************************************************************
-                  Funkcie OS Star v1.1.1 pre zoznamy typu who
-            Copyright (C) Pavol Hluchy - posledny update: 5.10.2000
-          osstar@star.sjf.stuba.sk  |  http://star.sjf.stuba.sk/osstar
+                  Funkcie Lotos v1.2.0 pre zoznamy typu who
+            Copyright (C) Pavol Hluchy - posledny update: 23.4.2001
+          lotos@losys.net           |          http://lotos.losys.net
  *****************************************************************************/
+
+#ifndef __WHO_C__
+#define __WHO_C__ 1
 
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #include "define.h"
-#include "ur_obj.h"
-#include "rm_obj.h"
+#include "prototypes.h"
+#include "obj_ur.h"
+#include "obj_rm.h"
 #ifdef NETLINKS
-	#include "nl_obj.h"
+	#include "obj_nl.h"
 #endif
-#include "syspp_obj.h"
+#include "obj_syspp.h"
 #include "who.h"
 
-
-UR_OBJECT get_user(char *name);
-char * center_string(int strlen, int mark, char *marker, char *str, ...);
 
 void who_nuts333(UR_OBJECT user)
 {
@@ -27,6 +30,7 @@ void who_nuts333(UR_OBJECT user)
 	char line[USER_NAME_LEN+USER_DESC_LEN*2];
 	char rname[ROOM_NAME_LEN+1], portstr[5];
 
+	set_crash();
 	sprintf(text, "\n~BB*** Current users %s ***\n\n", long_date(1));
 	write_user(user, text);
 	for (u=user_first; u!=NULL; u=u->next) {
@@ -61,16 +65,17 @@ void who_nuts333(UR_OBJECT user)
 		else strcat(text, "\n");
 		write_user(user, text);
 		}
-	vwrite_user(user, "\nThere are %d visible, %d invisible, %d remote users.\nTotal of %d users.\n\n", syspp->acounter[4]-invis, invis, remote, total);
+	vwrite_user(user, "\nThere are %d visible, %d invisible, %d remote users.\nTotal of %d users.\n\n", syspp->acounter[3]-invis, invis, remote, total);
 }
 
 
 void who_short(UR_OBJECT user)
 {
-	int ret,cnt,invis,logins,remote,hidden;
+	int ret,cnt,invis,logins,hidden;
 	char line[USER_NAME_LEN+USER_DESC_LEN*2];
 	UR_OBJECT u;
 
+	set_crash();
 	cnt=0; ret=0; invis=0; logins=0; hidden=0;
 	write_user(user,"\n");
 	write_user(user,center_string(80,0,NULL,"~FM-~OL=~FR[ ~RSPeople in the %s %s ~OL~FR]~FM=~RS~FM-",reg_sysinfo[TALKERNAME],long_date(1)));
@@ -108,12 +113,13 @@ void who_moebyroom(UR_OBJECT user)
 	char txt[ARR_SIZE];
 	int cnt,total,invis,mins,idle,logins,hidden;
 	char line[USER_NAME_LEN+USER_DESC_LEN*2];
-	char rname[ROOM_NAME_LEN+1],portstr[16],idlestr[6],sockstr[3],levelname[20];
-	char status[6], gender[7];
+	char rname[ROOM_NAME_LEN+1],levelname[20];
+	char gender[7];
 	char *msg_afk=" %s ~RS~FRis away from the keyboard.";
 	char *msg_edit=" %s ~RS~FTis using the text editor";
 	char *msg_sleep=" %s ~RS~FMappears to be sleeping.";
 
+	set_crash();
 	total=0;  invis=0;  logins=0;  hidden=0;
 
 /*** Print Who List Header ***/
@@ -190,14 +196,15 @@ void who_moebyroom(UR_OBJECT user)
 
 void who_hope(UR_OBJECT user)
 {
-	UR_OBJECT u, cu;
+	UR_OBJECT u, cu=user;
 
-	int cnt,total,invis,mins,idle,logins,hidden;
+	int total,invis,mins,idle,logins,hidden;
 	char line[USER_NAME_LEN+USER_DESC_LEN*2];
-	char rname[ROOM_NAME_LEN+1],portstr[16],idlestr[6],sockstr[3],levelname[20];
-	char status[6], gender[7], text2[ARR_SIZE+1];
+	char rname[ROOM_NAME_LEN+1],levelname[20];
+	char gender[7], text2[ARR_SIZE+1];
 	char txt[ARR_SIZE];
 
+	set_crash();
 	total=0;  invis=0;  logins=0;  hidden=0;
 	write_user(user,"\n\n");
 	write_user(user,"~FB_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._\n");
@@ -261,13 +268,14 @@ void who_hope(UR_OBJECT user)
 
 void who_stairway(UR_OBJECT user)
 {
-	UR_OBJECT u, cu;
+	UR_OBJECT u, cu=user;
 
 int cnt,total,invis,mins,idle,logins,hidden;
 char line[USER_NAME_LEN+USER_DESC_LEN*2];
-char rname[ROOM_NAME_LEN+1],portstr[16],idlestr[6],sockstr[3],levelname[20];
+char rname[ROOM_NAME_LEN+1],levelname[20];
 char status[6], gender[7];
 
+	set_crash();
      total=0;  invis=0;  logins=0;  hidden=0;/* Init Vars to 0 */
      write_user(user,"\n");
      sprintf(text,"~FMPeople roaming %s %s",reg_sysinfo[TALKERNAME],long_date(1));
@@ -325,3 +333,4 @@ char status[6], gender[7];
     write_user(user,"~OL~FB----------------------------------------------------------------------------\n");
 }
 
+#endif /* who.c */
